@@ -7,6 +7,7 @@ import com.hehe.common.model.PageInfo;
 import com.hehe.common.model.Paging;
 import com.hehe.common.model.Response;
 import com.hehe.common.util.Arguments;
+import com.hehe.common.util.VerifyUtil;
 import com.hehe.user.dao.UserDao;
 import com.hehe.user.model.User;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,14 @@ public class UserServiceImp implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+    /**
+     * 按照  用户名、邮箱、手机号查询
+     * 只要匹配一个，就代表查询成功
+     *
+     * @param identity
+     * @return Response
+     */
     @Override
     public Response<User> findByIdentity(String identity) {
         try {
@@ -40,18 +49,19 @@ public class UserServiceImp implements UserService {
             if (!StringUtils.hasText(identity)) {
                 return Response.fail("user.identity.not.null");
             }
+            List<User> users = null;
             Map<String, Object> criteria = Maps.newHashMap();
-            criteria.put("username", identity);
-            List<User> users = userDao.list(criteria);
-            if (Arguments.isNullOrEmpty(users)) {
-                criteria.clear();
+            if (VerifyUtil.verifyMobile(identity)) {
                 criteria.put("phone", identity);
                 users = userDao.list(criteria);
-                if (Arguments.isNullOrEmpty(users) && CharMatcher.is('@').matchesAnyOf(identity)) {
-                    criteria.clear();
-                    criteria.put("email", identity);
-                    users = userDao.list(criteria);
-                }
+            } else if (VerifyUtil.verifyEmail(identity) && Arguments.isNullOrEmpty(users)) {
+                criteria.clear();
+                criteria.put("email", identity);
+                users = userDao.list(criteria);
+            } else if (Arguments.isNullOrEmpty(users)) {
+                criteria.clear();
+                criteria.put("username", identity);
+                users = userDao.list(criteria);
             }
 
             if (Arguments.isNullOrEmpty(users)) {
