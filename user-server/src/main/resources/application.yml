@@ -1,0 +1,34 @@
+server:
+  port: 8060
+logging:
+  config: classpath:logback.xml
+  path: /Users/hehe/java/temp/log
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/security?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&useSSL=false
+    username: root
+    password: anywhere
+
+  redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      pool:
+        min-idle: 2
+        max-idle: 500
+        max-active: 500
+  mvc:
+    view:
+      suffix: .html
+      prefix: /
+
+mybatis:
+  type-aliases-package: com.hehe.user.model
+  mapper-locations: classpath*:mapper/*Mapper.xml
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3

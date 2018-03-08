@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+</head>
+<body>
+<form action="/login"  class="form-horizontal" method="post">
+    <h1>用户登录</h1>
+    <div class="form-group">
+        <label for="username" class="col-sm-4 control-label">用户名</label>
+        <div class="col-sm-8">
+            <input type="text" id="username" name="username" class="form-control" placeholder="用户名" required="" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="password" class="col-sm-4 control-label">密  码</label>
+        <div class="col-sm-8">
+            <input type="text" id="password" name="password" class="form-control" placeholder="密码" required="" />
+        </div>
+    </div>
+    <div>
+        <input class="btn btn-default submit"type="submit" value="登录">
+        <input type="button" id="ajaxBtn" value="AJAX提交" />
+    </div>
+
+</form>
+
+<script>
+
+    $("#ajaxBtn").click(function() {
+
+        var formArray = $("#form").serializeArray();
+        var data =arrayToJson(formArray);
+        debugger
+        $.ajax({
+            type : "POST",
+            url : "/login/login",
+            contentType: "application/json; charset=utf-8",
+            data: data,
+            success: function (result) {
+                alert(result);//打印服务端返回的数据(调试用)
+                if (result.resultCode == 200) {
+                    alert("SUCCESS");
+                }
+                ;
+            },
+            error : function() {
+                alert("异常！");
+            }
+        });
+    }
+
+    function arrayToJson(formArray){
+        var dataArray = {};
+        $.each(formArray,function(){
+            if(dataArray[this.name]){
+                if(!dataArray[this.name].push){
+                    dataArray[this.name] = [dataArray[this.name]];
+                }
+                dataArray[this.name].push(this.value || '');
+            }else{
+                dataArray[this.name] = this.value || '';
+            }
+        });
+        return JSON.stringify(dataArray);
+    }
+</script>
+</body>
+</html>

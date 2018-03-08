@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Client">
+    <resultMap id="ClientMap" type="Client">
+        <id property="id" column="id"/>
+        <result property="clientId" column="client_id"/>
+        <result property="clientName" column="client_name"/>
+        <result property="clientSecret" column="client_secret"/>
+        <result property="clientUrl" column="client_url"/>
+        <result property="clientLogoUrl" column="client_logo_url"/>
+        <result property="registeredRedirectUri1" column="registered_redirect_uri"/>
+        <result property="authorizedGrantTypes1" column="authorized_grant_types"/>
+        <result property="resourceIds1" column="resource_ids"/>
+        <result property="scope1" column="scope"/>
+        <result property="accessTokenValiditySeconds" column="access_token_validity_seconds"/>
+        <result property="refreshTokenValiditySeconds" column="refresh_token_validity_seconds"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="tb">
+        us_clients
+    </sql>
+
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+
+    <sql id="cols_exclude_id">
+        `client_id`, `client_name`, `client_secret`, `client_url`, `client_logo_url`, `registered_redirect_uri`, `authorized_grant_types`, `resource_ids`, `scope`, `access_token_validity_seconds`, `refresh_token_validity_seconds`,
+        created_at, updated_at
+    </sql>
+
+    <sql id="vals">
+        #{clientId}, #{clientName}, #{clientSecret}, #{clientUrl}, #{clientLogoUrl}, #{registeredRedirectUri1}, #{authorizedGrantTypes1}, #{resourceIds1}, #{scope1}, #{accessTokenValiditySeconds}, #{refreshTokenValiditySeconds},
+        now(), now()
+    </sql>
+
+    <sql id="criteria">
+        <where>
+            <if test="clientId != null">AND `client_id` = #{clientId}</if>
+            <if test="clientName != null">AND `client_name` = #{clientName}</if>
+            <if test="clientSecret != null">AND `client_secret` = #{clientSecret}</if>
+            <if test="clientUrl != null">AND `client_url` = #{clientUrl}</if>
+            <if test="clientLogoUrl != null">AND `client_logo_url` = #{clientLogoUrl}</if>
+            <if test="registeredRedirectUri1 != null">AND `registered_redirect_uri` = #{registeredRedirectUri1}</if>
+            <if test="authorizedGrantTypes1 != null">AND `authorized_grant_types` = #{authorizedGrantTypes1}</if>
+            <if test="resourceIds1 != null">AND `resource_ids` = #{resourceIds1}</if>
+            <if test="scope1 != null">AND `scope` = #{scope1}</if>
+            <if test="accessTokenValiditySeconds != null">AND `access_token_validity_seconds` =
+                #{accessTokenValiditySeconds}
+            </if>
+            <if test="refreshTokenValiditySeconds != null">AND `refresh_token_validity_seconds` =
+                #{refreshTokenValiditySeconds}
+            </if>
+            <if test="createdAt != null">AND <![CDATA[created_at >= #{createdAt}]]> </if>
+            <if test="updatedAt != null">AND <![CDATA[updated_at < #{updatedAt}]]> </if>
+        </where>
+    </sql>
+
+    <insert id="create" parameterType="Client" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="ClientMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="ClientMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <update id="update" parameterType="Client">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="clientId != null">`client_id` = #{clientId},</if>
+            <if test="clientName != null">`client_name` = #{clientName},</if>
+            <if test="clientSecret != null">`client_secret` = #{clientSecret},</if>
+            <if test="clientUrl != null">`client_url` = #{clientUrl},</if>
+            <if test="clientLogoUrl != null">`client_logo_url` = #{clientLogoUrl},</if>
+            <if test="registeredRedirectUri1 != null">`registered_redirect_uri` = #{registeredRedirectUri1},</if>
+            <if test="authorizedGrantTypes1 != null">`authorized_grant_types` = #{authorizedGrantTypes1},</if>
+            <if test="resourceIds1 != null">`resource_ids` = #{resourceIds1},</if>
+            <if test="scope1 != null">`scope` = #{scope1},</if>
+            <if test="accessTokenValiditySeconds != null">`access_token_validity_seconds` =
+                #{accessTokenValiditySeconds},
+            </if>
+            <if test="refreshTokenValiditySeconds != null">`refresh_token_validity_seconds` =
+                #{refreshTokenValiditySeconds},
+            </if>
+            updated_at = now()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+        <include refid="tb"/>
+        WHERE id = #{id}
+    </delete>
+
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM
+        <include refid="tb"/>
+        <include refid="criteria"/>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="ClientMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        <include refid="criteria"/>
+        ORDER BY `id` DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="list" parameterType="map" resultMap="ClientMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        <include refid="criteria"/>
+        ORDER BY `id` DESC
+    </select>
+
+</mapper>
