@@ -39,7 +39,7 @@ public class EmailVerificationCodeServiceImpl extends AbstractVerificationCodeSe
     @Value("${verification.code.limit.failure_time:300}")
     public Integer EMAIL_CODE_LIMIT_FAILURE_TIME;
 
-    @Value("${email.username}")
+    @Value("${verification.email.username}")
     private String EMAIL_USERNAME;
 
 

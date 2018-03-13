@@ -103,6 +103,13 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!--腾讯云短信 Java SDK-->
+		<dependency>
+			<groupId>com.github.qcloudsms</groupId>
+			<artifactId>qcloudsms</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

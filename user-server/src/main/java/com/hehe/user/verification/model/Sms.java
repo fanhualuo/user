@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
+ * 发送短信验证码
  * @author hehe
  * @date 2017/8/31 下午4:12
  * @email qinghe101@qq.com
@@ -14,18 +15,11 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Email implements Serializable {
+public class Sms implements Serializable {
 
-    private static final long serialVersionUID = -4128299559417179427L;
-
-    /** 发件人 **/
-    private String fromAddress;
-
+    private static final long serialVersionUID = 8846057336499688590L;
     /** 收件人 **/
-    private String toAddress;
-
-    /** 邮件主题 **/
-    private String subject;
+    private String toPhone;
 
     /** 邮件内容 **/
     private String content;

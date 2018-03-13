@@ -2,6 +2,7 @@ package com.hehe.user.web.handler;
 
 import com.google.common.collect.Maps;
 import com.hehe.common.util.JsonResponseException;
+import com.hehe.common.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +30,7 @@ public class ControllerExceptionHandler {
     /**
      * Controller抛出JsonResponseException异常在这里处理
      */
-    @ExceptionHandler(JsonResponseException.class)
+    @ExceptionHandler({JsonResponseException.class, ServiceException.class})
     public ResponseEntity<Object> handleJsonResponseException(JsonResponseException ex) {
         Map<String, Object> error = Maps.newHashMap();
         String message=ex.getMessage();

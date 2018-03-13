@@ -49,6 +49,7 @@ public class UserSignupApiController {
 
     /**
      * 发送验证码
+     * 邮箱、短信 --> 注册、登录、密码重置
      *
      * @param
      * @return
@@ -95,7 +96,7 @@ public class UserSignupApiController {
             } else if (user == null) {
                 throw new JsonResponseException(400, "username.not.found");
             }
-            return RespHelper.or500(smsVerificationCodeService.sendVerificationCode(user.getEmail(), type));
+            return RespHelper.or500(smsVerificationCodeService.sendVerificationCode(user.getPhone(), type));
 
         } else {
             throw new JsonResponseException(400, "send.code.mode.not.null");
@@ -103,7 +104,67 @@ public class UserSignupApiController {
     }
 
 
+    /**
+     * 注册页面
+     * 邮箱、短信验证码注册
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/signup")
+    public String signup(@RequestBody SignupJson signupJson, OAuth2Authentication auth) {
+        if (!auth.isClientOnly()) {
+            throw new JsonResponseException(401, "invalid_token");
+        }
+        if (Strings.isNullOrEmpty(signupJson.getMode())) {
+            throw new JsonResponseException(400, "signup.code.mode.not.null");
+        }
+        //
+        if (Strings.isNullOrEmpty(signupJson.getPassword())) {
+            throw new JsonResponseException(400, "user.password.not.null");
+        }
+        if (Strings.isNullOrEmpty(signupJson.getCode())) {
+            throw new JsonResponseException(400, "user.code.not.null");
+        }
+        if (signupJson.getPassword().length() < 8) {
+            throw new JsonResponseException(400, "user.password.not.legal");
+        }
+        User user = new User();
+        //邮箱
+        if (Objects.equal(signupJson.getMode(), "email")) {
+            if (Strings.isNullOrEmpty(signupJson.getIdentity()) || !VerifyUtil.verifyEmail(signupJson.getIdentity())) {
+                throw new JsonResponseException(400, "user.email.not.legal");
+            }
+            User user1 = RespHelper.or500(userService.findByEmail(signupJson.getIdentity()));
+            //注册，必须不存在此用户
+            if (Arguments.notNull((user1))) {
+                throw new JsonResponseException(400, "user.already.exist");
+            }
+            if (!emailVerificationCodeService.verificationCode(VerificationCode.Type.REGISTER, signupJson.getIdentity(), signupJson.getCode())) {
+                throw new JsonResponseException(400, "user.code.is.error");
+            }
+            user.setEmail(signupJson.getIdentity());
+        } else if (Objects.equal(signupJson.getMode(), "sms")) {
+            //手机
+            if (Strings.isNullOrEmpty(signupJson.getIdentity()) || !VerifyUtil.verifyMobile(signupJson.getIdentity())) {
+                throw new JsonResponseException(400, "user.phone.not.legal");
+            }
+            User user1 = RespHelper.or500(userService.findByPhone(signupJson.getIdentity()));
+            if (Arguments.notNull((user1))) {
+                throw new JsonResponseException(400, "user.already.exist");
+            }
+            if (!smsVerificationCodeService.verificationCode(VerificationCode.Type.REGISTER, signupJson.getIdentity(), signupJson.getCode())) {
+                throw new JsonResponseException(400, "user.code.is.error");
+            }
+            user.setPhone(signupJson.getIdentity());
+        } else {
+            throw new JsonResponseException(400, "send.code.mode.not.null");
+        }
 
+        user.setPassword(signupJson.getPassword());
+        RespHelper.or500(userService.create(user));
+        return "success";
+    }
 
 
     @Data
@@ -137,6 +198,44 @@ public class UserSignupApiController {
          */
         @JsonProperty("captcha_answer")
         private String captchaAnswer;
+    }
+
+
+    @Data
+    public static class SignupJson implements Serializable {
+        private static final long serialVersionUID = 9125285746062287723L;
+        /**
+         * 手机/邮箱
+         */
+        private String identity;
+
+        /**
+         * 验证方式  邮箱：email，手机短信：sms
+         */
+        private String mode;
+
+        /**
+         * 验证码
+         */
+        private String code;
+        /**
+         * 验证码token
+         */
+        @JsonProperty("captcha_token")
+        private String captchaToken;
+
+        /**
+         * 验证码答案
+         */
+        @JsonProperty("captcha_answer")
+        private String captchaAnswer;
+
+        /**
+         * 密码
+         */
+        private String password;
+
+
     }
 
 }
