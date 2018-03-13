@@ -1,4 +1,4 @@
-package com.hehe.user.service;
+package com.hehe.user.service.impl;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Throwables;
@@ -10,6 +10,7 @@ import com.hehe.common.util.Arguments;
 import com.hehe.common.util.VerifyUtil;
 import com.hehe.user.dao.UserDao;
 import com.hehe.user.model.User;
+import com.hehe.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +27,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class UserServiceImp implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;

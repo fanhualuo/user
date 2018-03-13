@@ -1,6 +1,7 @@
 package com.hehe.user.config;
 
 import com.hehe.common.event.CoreEventDispatcher;
+import com.hehe.user.verification.model.VerificationCode;
 import com.hehe.user.util.MyPasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +10,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 /**
  * @author xieqinghe .
@@ -36,12 +36,15 @@ public class SpringConfig {
         return new CoreEventDispatcher();
     }
 
+    /**
+     * 验证码redis存储
+     */
     @Bean
-    public RedisTemplate<String, OAuth2Authentication> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<String, OAuth2Authentication> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, VerificationCode> verificationCodeRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, VerificationCode> redisTemplate = new RedisTemplate();
         redisTemplate.setKeySerializer(stringRedisSerializer());
         redisTemplate.setDefaultSerializer(jsonRedisSerializer());
-        redisTemplate.setConnectionFactory(connectionFactory);
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
         return redisTemplate;
     }
     @Bean

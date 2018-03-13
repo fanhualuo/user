@@ -1,6 +1,6 @@
 package com.hehe.user.config;
 
-import com.hehe.user.service.MyUserDetailsService;
+import com.hehe.user.config.granter.MyUserDetailsService;
 import com.hehe.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

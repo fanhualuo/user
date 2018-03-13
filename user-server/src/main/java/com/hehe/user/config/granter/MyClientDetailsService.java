@@ -1,7 +1,8 @@
-package com.hehe.user.service;
+package com.hehe.user.config.granter;
 
 import com.hehe.common.util.RespHelper;
 import com.hehe.user.model.Client;
+import com.hehe.user.service.ClientService;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;

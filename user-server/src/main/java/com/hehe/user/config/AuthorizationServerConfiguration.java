@@ -1,13 +1,15 @@
 package com.hehe.user.config;
 
 import com.hehe.common.event.CoreEventDispatcher;
+import com.hehe.user.config.granter.MyClientDetailsService;
 import com.hehe.user.config.granter.MyCompositeTokenGranter;
 import com.hehe.user.config.granter.MyPasswordTokenGranter;
+import com.hehe.user.config.granter.MyUserDetailsService;
 import com.hehe.user.config.store.MyRedisTokenStore;
 import com.hehe.user.service.ClientService;
-import com.hehe.user.service.MyClientDetailsService;
-import com.hehe.user.service.MyUserDetailsService;
 import com.hehe.user.service.UserService;
+import com.hehe.user.verification.EmailVerificationCodeServiceImpl;
+import com.hehe.user.verification.SmsVerificationCodeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -82,6 +84,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private EmailVerificationCodeServiceImpl emailVerificationCodeService;
+
+    @Autowired
+    private SmsVerificationCodeServiceImpl smsVerificationCodeService;
+
     /**
      * 配置客户端数据
      */
@@ -140,7 +148,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         OAuth2RequestFactory requestFactory = requestFactory(clientDetailsService);
 
         //1，password 密码模式，重写（作为示例，其他模式都可以重写，具体可以参照spring源码）
-        tokenGranters.add(new MyPasswordTokenGranter(tokenServices, clientDetailsService, requestFactory, userService, passwordEncoder));
+        tokenGranters.add(new MyPasswordTokenGranter(tokenServices, clientDetailsService, requestFactory, userService, passwordEncoder, emailVerificationCodeService, smsVerificationCodeService));
 
         //2，authorization_code 授权码模式，spring security oauth2实现
         tokenGranters.add(new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices(), clientDetailsService, requestFactory));

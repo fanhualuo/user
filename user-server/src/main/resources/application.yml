@@ -28,7 +28,20 @@ mybatis:
   type-aliases-package: com.hehe.user.model
   mapper-locations: classpath*:mapper/*Mapper.xml
 
+# 配置security oauth2，不配置出错....
 security:
   oauth2:
     resource:
       filter-order: 3
+
+#验证码配置
+verification:
+  code:
+    limit:
+      count: 20  #每天发送最大次数
+      failure_time: 300 #失效时间，单位s
+
+email:
+  host: smtp.163.com
+  username: m15854026443@163.com
+  password: 19960111xie

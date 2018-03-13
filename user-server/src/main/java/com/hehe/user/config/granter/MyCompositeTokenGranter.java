@@ -1,7 +1,6 @@
 package com.hehe.user.config.granter;
 
 import com.hehe.common.event.CoreEventDispatcher;
-import com.hehe.user.event.UserEventLogsDto;
 import com.hehe.user.util.MyPasswordEncoder;
 import org.slf4j.Logger;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -40,7 +39,7 @@ public class MyCompositeTokenGranter implements TokenGranter {
         for (TokenGranter granter : tokenGranters) {
             OAuth2AccessToken grant = granter.grant(grantType, tokenRequest);
             if (grant!=null) {
-                dispatcher.publish(new UserEventLogsDto(tokenRequest,grant,"登录"));
+                //dispatcher.publish(new UserEventLogsDto(tokenRequest,grant,"登录"))
                 return grant;
             }
         }

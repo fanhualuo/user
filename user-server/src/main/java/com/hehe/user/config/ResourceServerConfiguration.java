@@ -37,7 +37,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .antMatchers("/v1/**").access("#oauth2.hasScope('select')")
-                .antMatchers("/v2/**").permitAll();
+                .antMatchers("/v2/**").permitAll()
+                .anyRequest().authenticated();
     }
 
 }

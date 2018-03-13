@@ -1,7 +1,8 @@
-package com.hehe.user.service;
+package com.hehe.user.config.granter;
 
 import com.hehe.common.model.Response;
 import com.hehe.user.model.User;
+import com.hehe.user.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,14 +35,6 @@ public class MyUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-//        User user=new User()
-//        user.setId(1L)
-//        user.setUsername("hehe")
-//        user.setEmail("qinghe101@qq.com")
-//        user.setPhone("15854026443")
-//        user.setPassword("8fc4@cf1636f1278457e3dfae")
-
         Response<User> response = userService.findByIdentity(username);
 
         if (!response.isSuccess() || response == null) {

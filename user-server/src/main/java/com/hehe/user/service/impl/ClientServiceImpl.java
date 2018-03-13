@@ -1,4 +1,4 @@
-package com.hehe.user.service;
+package com.hehe.user.service.impl;
 
 import com.google.common.base.Throwables;
 import com.hehe.common.model.PageInfo;
@@ -7,6 +7,7 @@ import com.hehe.common.model.Response;
 import com.hehe.common.util.Arguments;
 import com.hehe.user.dao.ClientDao;
 import com.hehe.user.model.Client;
+import com.hehe.user.service.ClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class ClientServiceImp implements ClientService {
+public class ClientServiceImpl implements ClientService {
 
 
     @Autowired

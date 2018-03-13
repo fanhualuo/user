@@ -28,8 +28,4 @@ public class TestController {
         return "test v3 ";
     }
 
-    @GetMapping("/error")
-    public String error() {
-        return "error.html";
-    }
 }
