@@ -23,7 +23,7 @@ import java.util.List;
  * 原因：spring自带redis实现 刷新token 操作耗费大量时间，高并发情况会大量出现redis time out的异常错误
  * @author xieqinghe .
  * @date 2017/11/16 下午3:57
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public class MyRedisTokenStore implements TokenStore {
 

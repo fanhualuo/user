@@ -29,7 +29,7 @@ import java.io.Serializable;
  *
  * @author xieqinghe .
  * @date 2018/3/8 下午3:50
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @RestController
 @EnableSwagger2
@@ -81,7 +81,7 @@ public class UserSignupApiController {
             } else if (Arguments.isNull(user)) {
                 throw new JsonResponseException(400, "username.not.found");
             }
-            return RespHelper.or500(emailVerificationCodeService.sendVerificationCode(user.getEmail(), type));
+            return RespHelper.or500(emailVerificationCodeService.sendVerificationCode(verificationCodeJson.getIdentity(), type));
 
         } else if (Objects.equal(verificationCodeJson.getMode(), "sms")) {
             //手机
@@ -96,7 +96,7 @@ public class UserSignupApiController {
             } else if (user == null) {
                 throw new JsonResponseException(400, "username.not.found");
             }
-            return RespHelper.or500(smsVerificationCodeService.sendVerificationCode(user.getPhone(), type));
+            return RespHelper.or500(smsVerificationCodeService.sendVerificationCode(verificationCodeJson.getIdentity(), type));
 
         } else {
             throw new JsonResponseException(400, "send.code.mode.not.null");

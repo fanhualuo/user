@@ -14,7 +14,7 @@ import java.io.Serializable;
  *
  * @author xieqinghe .
  * @date 2018/3/11 下午7:48
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Data
 @NoArgsConstructor

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * 用户登录等操作信息写入日志
  * @author xieqinghe .
  * @date 2017/11/15 下午5:17
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Component
 @Slf4j

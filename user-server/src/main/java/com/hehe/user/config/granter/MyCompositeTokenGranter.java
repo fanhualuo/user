@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author xieqinghe .
  * @date 2017/11/15 下午1:34
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public class MyCompositeTokenGranter implements TokenGranter {
 

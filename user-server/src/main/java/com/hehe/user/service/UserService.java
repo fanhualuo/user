@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author xieqinghe .
  * @date 2017/11/14 下午4:35
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public interface UserService {
 

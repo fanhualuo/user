@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  *
  * @author xieqinghe .
  * @date 2018/3/11 下午7:42
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Slf4j
 @Service

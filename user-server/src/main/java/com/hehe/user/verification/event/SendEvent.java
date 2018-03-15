@@ -26,7 +26,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author xieqinghe .
  * @date 2018/3/13 上午10:52
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Slf4j
 @Component

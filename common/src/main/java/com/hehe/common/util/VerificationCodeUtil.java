@@ -17,7 +17,7 @@ import java.util.Random;
  *
  * @author xieqinghe .
  * @date 2018/3/11 下午6:17
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public class VerificationCodeUtil {
 

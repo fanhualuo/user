@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  * 格式校验
  * @author xieqinghe .
  * @date 2018/1/16 下午3:43
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public class VerifyUtil {
 

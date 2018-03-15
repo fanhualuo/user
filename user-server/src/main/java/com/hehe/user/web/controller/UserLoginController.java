@@ -36,7 +36,7 @@ import java.util.Map;
  *
  * @author xieqinghe .
  * @date 2018/1/13 下午7:15
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Controller
 @EnableSwagger2

@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * @author xieqinghe .
  * @date 2017/11/15 上午10:15
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Data
 public class Client implements ClientDetails, Serializable {

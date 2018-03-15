@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 /**
  * @author xieqinghe .
  * @date 2018/3/13 上午11:44
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public class AuthenticationUtil {
 

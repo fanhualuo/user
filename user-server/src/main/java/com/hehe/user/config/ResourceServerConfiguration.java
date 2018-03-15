@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 /**
  * @author xieqinghe .
  * @date 2017/11/13 下午1:43
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  * 资源服务配置
  * 继承ResourceServerConfigurerAdapter类
  * @EnableResourceServer 标注配置

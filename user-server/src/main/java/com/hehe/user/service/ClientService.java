@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author xieqinghe .
  * @date 2017/11/15 上午10:17
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public interface ClientService {
 

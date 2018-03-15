@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  *
  * @author xieqinghe .
  * @date 2018/3/11 下午7:42
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Slf4j
 @Service
@@ -90,7 +90,7 @@ public class EmailVerificationCodeServiceImpl extends AbstractVerificationCodeSe
      * 异步发送邮件
      */
     private void sendEmail(String sendTo, VerificationCode.Type type, String code) {
-        String content = "亲爱的用户：您好！感谢您使用服务，您正在进行邮箱验证，本次请求的" + type.getDisplay() + "VerificationCode为：" + code;
+        String content = "亲爱的用户：您好！感谢您使用服务，您正在进行邮箱验证，本次请求的" + type.getDisplay() + "verificationCode为：" + code;
         Email email = new Email(EMAIL_USERNAME, sendTo, "账号安全验证", content);
         //发送验证码，使用接口
         this.coreEventDispatcher.publish(email);

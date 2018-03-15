@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author xieqinghe .
  * @date 2018/2/23 上午9:54
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Data
 public class Role {

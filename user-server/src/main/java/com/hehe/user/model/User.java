@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author xieqinghe .
  * @date 2017/11/14 下午4:43
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Data
 public class User implements Serializable {

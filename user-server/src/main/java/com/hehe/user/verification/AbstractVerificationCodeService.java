@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author xieqinghe .
  * @date 2018/3/11 下午7:45
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public abstract class AbstractVerificationCodeService {
 

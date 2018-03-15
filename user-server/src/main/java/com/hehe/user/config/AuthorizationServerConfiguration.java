@@ -50,7 +50,7 @@ import java.util.List;
 /**
  * @author xieqinghe .
  * @date 2017/11/13 下午1:38
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  * 认证服务配置
  * 继承AuthorizationServerConfigurerAdapter类，
  * 添加@EnableAuthorizationServer注解

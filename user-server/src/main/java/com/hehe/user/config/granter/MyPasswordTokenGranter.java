@@ -31,7 +31,7 @@ import java.util.Map;
  *
  * @author xieqinghe .
  * @date 2017/11/15 下午3:27
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public class MyPasswordTokenGranter extends AbstractTokenGranter {
     private static final String GRANT_TYPE = "password";

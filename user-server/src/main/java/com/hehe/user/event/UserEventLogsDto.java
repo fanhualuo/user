@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.provider.TokenRequest;
 /**
  * @author xieqinghe .
  * @date 2017/11/15 下午5:26
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Data
 public class UserEventLogsDto {

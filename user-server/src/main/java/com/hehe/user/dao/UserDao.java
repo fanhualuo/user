@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * @author xieqinghe .
  * @date 2017/11/14 下午4:49
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Repository
 public class UserDao extends MyBatisDao<User>{

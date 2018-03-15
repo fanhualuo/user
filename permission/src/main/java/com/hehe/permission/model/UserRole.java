@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * @author xieqinghe .
  * @date 2018/2/23 上午9:58
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 @Data
 public class UserRole {

@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.provider.NoSuchClientException;
 /**
  * @author xieqinghe .
  * @date 2017/11/17 下午4:15
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public class MyClientDetailsService implements ClientDetailsService {
     private ClientService clientService;

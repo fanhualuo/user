@@ -15,7 +15,7 @@ import java.util.UUID;
  * 用户密码加密类
  * @author xieqinghe .
  * @date 2017/11/14 下午4:32
- * @email xieqinghe@terminus.io
+ * @email qinghe101@qq.com
  */
 public class MyPasswordEncoder implements PasswordEncoder {
 
