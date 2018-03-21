@@ -10,5 +10,27 @@ import org.springframework.stereotype.Repository;
  * @email qinghe101@qq.com
  */
 @Repository
-public class UserDao extends MyBatisDao<User>{
+public class UserDao extends MyBatisDao<User> {
+
+
+    /**
+     * 更新手机号
+     *
+     * @param user
+     * @return Boolean
+     */
+    public Boolean updatePhone(User user) {
+
+        return Boolean.valueOf(getSqlSession().update(sqlId("updatePhone"), user) == 1);
+    }
+
+    /**
+     * 更新邮箱
+     *
+     * @param user
+     * @return Boolean
+     */
+    public Boolean updateEmail(User user) {
+        return Boolean.valueOf(getSqlSession().update(sqlId("updateEmail"), user) == 1);
+    }
 }

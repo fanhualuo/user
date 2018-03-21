@@ -42,11 +42,20 @@ public class VerificationCode implements Serializable {
      */
     private Integer count;
 
+    /**
+     *
+     * 失效时间戳
+     */
+    private Long invalidTime;
+
     public enum Type {
 
         REGISTER(1, "注册"),
         LOGIN(2, "登录"),
-        PASSWORD_RESET(3, "密码重置");
+        PASSWORD_RESET(3, "密码重置"),
+        BINGING(4,"绑定"),
+        UN_BINGING(5,"解绑"),
+        REPLACE(6,"替换");
 
         @Getter
         @Setter

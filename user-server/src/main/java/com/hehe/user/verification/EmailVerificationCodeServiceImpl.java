@@ -70,7 +70,9 @@ public class EmailVerificationCodeServiceImpl extends AbstractVerificationCodeSe
                 //超过最大限制次数
                 return Response.fail("send.email.code.exceed.limit");
             }
-            VerificationCode verificationCode2 = new VerificationCode(sendTo, code, type.getValue(), count);
+            //失效时间戳
+            Long invalidTime = System.currentTimeMillis() + getCodeFailureTime()*1000;
+            VerificationCode verificationCode2 = new VerificationCode(sendTo, code, type.getValue(), count, invalidTime);
             //验证码存入redis(如果以前存在，则使用这条新的覆盖)
             this.putVerificationCode(verificationCode2);
 

@@ -3,9 +3,6 @@ package com.hehe.user.verification;
 import com.hehe.common.model.Response;
 import com.hehe.user.verification.model.VerificationCode;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author xieqinghe .
@@ -16,6 +13,7 @@ public abstract class AbstractVerificationCodeService {
 
     /**
      * 获得redisTemplate
+     *
      * @param
      * @return
      */
@@ -66,7 +64,6 @@ public abstract class AbstractVerificationCodeService {
         return getCodePathRoot() + type.getValue() + "." + identity;
     }
 
-
     /**
      * 根据路径获取发送验证码内容
      *
@@ -77,7 +74,6 @@ public abstract class AbstractVerificationCodeService {
         return getRedisTemplate().opsForValue().get(path);
     }
 
-
     /**
      * 验证码存入redis,设置失效时间
      *
@@ -85,8 +81,37 @@ public abstract class AbstractVerificationCodeService {
      * @return
      */
     protected void putVerificationCode(VerificationCode verificationCode) {
-        ValueOperations<String,VerificationCode> temp= getRedisTemplate().opsForValue();
-        getRedisTemplate().opsForValue().set(getCodePath(VerificationCode.Type.from(verificationCode.getType()), verificationCode.getIdentity()), verificationCode, getCodeFailureTime(), TimeUnit.SECONDS);
+        getRedisTemplate().opsForValue().set(
+                getCodePath(VerificationCode.Type.from(verificationCode.getType()), verificationCode.getIdentity())
+                , verificationCode);
+    }
+
+    /**
+     * 根据type和identity删除key
+     *
+     * @param type     类型
+     * @param identity 账户
+     */
+    public void delVerificationCode(VerificationCode.Type type, String identity) {
+        getRedisTemplate().delete(getCodePath(type, identity));
+    }
+
+
+    /**
+     * 根据type和identity使当前key失效（更改时间戳为当前时间）
+     *
+     * @param type     类型
+     * @param identity 账户
+     */
+    public void invalidVerificationCode(VerificationCode.Type type, String identity) {
+        VerificationCode verificationCode = getVerificationCode(getCodePath(type, identity));
+        if (verificationCode != null) {
+            //更改时间戳
+            verificationCode.setInvalidTime(System.currentTimeMillis());
+            getRedisTemplate().opsForValue().set(
+                    getCodePath(VerificationCode.Type.from(verificationCode.getType()), verificationCode.getIdentity())
+                    , verificationCode);
+        }
     }
 
     /**
@@ -99,7 +124,9 @@ public abstract class AbstractVerificationCodeService {
         try {
             VerificationCode verificationCode = getVerificationCode(getCodePath(type, identity));
             if (verificationCode.getCode().equals(code)) {
-                return Boolean.TRUE;
+                if (verificationCode.getInvalidTime().compareTo(System.currentTimeMillis()) >= 0) {
+                    return Boolean.TRUE;
+                }
             }
             return Boolean.FALSE;
         } catch (Exception e) {

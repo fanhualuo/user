@@ -62,6 +62,21 @@ public interface UserService {
     Response<Boolean> update(User user);
 
     /**
+     * 更新手机号
+     * @param user
+     * @return Boolean
+     */
+    Response<Boolean> updatePhone(User user);
+
+    /**
+     * 更新邮箱
+     * @param user
+     * @return Boolean
+     */
+    Response<Boolean> updateEmail(User user);
+
+
+    /**
      * 删除
      * @param id
      * @return Boolean

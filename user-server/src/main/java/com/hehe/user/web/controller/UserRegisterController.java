@@ -13,7 +13,6 @@ import com.hehe.user.verification.EmailVerificationCodeServiceImpl;
 import com.hehe.user.verification.SmsVerificationCodeServiceImpl;
 import com.hehe.user.verification.model.VerificationCode;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.io.Serializable;
 
 /**
- * 用户注册相关
+ * 用户注册,发送验证码相关
  *
  * @author xieqinghe .
  * @date 2018/3/8 下午3:50
@@ -33,9 +32,8 @@ import java.io.Serializable;
  */
 @RestController
 @EnableSwagger2
-@Slf4j
 @RequestMapping("/api/user/v1")
-public class UserSignupApiController {
+public class UserRegisterController {
 
     @Autowired
     private EmailVerificationCodeServiceImpl emailVerificationCodeService;
@@ -48,7 +46,7 @@ public class UserSignupApiController {
     private UserService userService;
 
     /**
-     * 发送验证码
+     * 发送验证码（应用级token）
      * 邮箱、短信 --> 注册、登录、密码重置
      *
      * @param
@@ -73,10 +71,11 @@ public class UserSignupApiController {
                 throw new JsonResponseException(400, "user.email.not.legal");
             }
             User user = RespHelper.or500(userService.findByEmail(verificationCodeJson.getIdentity()));
-            //注册，必须不存在此用户
-            if (type.equals(VerificationCode.Type.REGISTER)) {
+            //注册,绑定验证码必须是没有绑定注册的邮箱手机号
+            if (type.equals(VerificationCode.Type.REGISTER)
+                    || type.equals(VerificationCode.Type.BINGING)) {
                 if (Arguments.notNull((user))) {
-                    throw new JsonResponseException(400, "user.already.exist");
+                    throw new JsonResponseException(400, "user.email.already.exist");
                 }
             } else if (Arguments.isNull(user)) {
                 throw new JsonResponseException(400, "username.not.found");
@@ -89,9 +88,10 @@ public class UserSignupApiController {
                 throw new JsonResponseException(400, "user.phone.not.legal");
             }
             User user = RespHelper.or500(userService.findByPhone(verificationCodeJson.getIdentity()));
-            if (type.getDisplay().equals(VerificationCode.Type.REGISTER)) {
+            if (type.equals(VerificationCode.Type.REGISTER)
+                    || type.equals(VerificationCode.Type.BINGING)) {
                 if (Arguments.notNull((user))) {
-                    throw new JsonResponseException(400, "user.already.exist");
+                    throw new JsonResponseException(400, "user.phone.already.exist");
                 }
             } else if (user == null) {
                 throw new JsonResponseException(400, "username.not.found");
@@ -105,8 +105,8 @@ public class UserSignupApiController {
 
 
     /**
-     * 注册页面
-     * 邮箱、短信验证码注册
+     * 注册
+     * 邮箱、短信验证码注册（应用级token）
      *
      * @param
      * @return
@@ -163,6 +163,13 @@ public class UserSignupApiController {
 
         user.setPassword(signupJson.getPassword());
         RespHelper.or500(userService.create(user));
+
+        //删除验证码
+        if (Objects.equal(signupJson.getMode(), "sms")) {
+            smsVerificationCodeService.invalidVerificationCode(VerificationCode.Type.REGISTER, signupJson.getIdentity());
+        } else {
+            emailVerificationCodeService.invalidVerificationCode(VerificationCode.Type.REGISTER, signupJson.getIdentity());
+        }
         return "success";
     }
 
@@ -177,7 +184,7 @@ public class UserSignupApiController {
         private String identity;
 
         /**
-         * 验证码类型 1, "注册"、 2, "登录"、 3, "密码重置"
+         * 验证码类型 1, "注册"、 2, "登录"、 3, "密码重置"、4,"绑定"、5,"解绑"、6,"替换"
          */
         @JsonProperty("code_type")
         private Integer codeType;
@@ -234,8 +241,6 @@ public class UserSignupApiController {
          * 密码
          */
         private String password;
-
-
     }
 
 }

@@ -94,6 +94,21 @@
         WHERE id = #{id}
     </update>
 
+    <update id="updatePhone" parameterType="User">
+        UPDATE
+        <include refid="tb"/>
+        SET `phone` = #{phone},updated_at = now()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateEmail" parameterType="User">
+        UPDATE
+        <include refid="tb"/>
+        SET `email` = #{email},updated_at = now()
+        WHERE id = #{id}
+    </update>
+
+
     <delete id="delete" parameterType="long">
         DELETE FROM <include refid="tb"/>
         WHERE id = #{id}

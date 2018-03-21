@@ -1,6 +1,9 @@
 package com.hehe.user.model;
 
+import com.google.common.base.Objects;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -44,12 +47,12 @@ public class User implements Serializable {
     private Integer enabled;
 
     /**
-     *锁定
+     * 正常：0，锁定：1
      */
     private Integer locked;
 
     /**
-     *账户类型 普通账户类型:1
+     * 账户类型 普通账户类型:1
      */
     private Integer type;
 
@@ -68,5 +71,31 @@ public class User implements Serializable {
      */
     private Date updatedAt;
 
+
+    public enum Type {
+
+        ORDINARY_USER(1, "普通用户");
+
+        @Getter
+        @Setter
+        private Integer value;
+        @Getter
+        @Setter
+        private String display;
+
+        Type(Integer value, String display) {
+            this.value = value;
+            this.display = display;
+        }
+
+        public static Type from(Integer value) {
+            for (Type type : Type.values()) {
+                if (Objects.equal(value, type.value)) {
+                    return type;
+                }
+            }
+            return null;
+        }
+    }
 
 }

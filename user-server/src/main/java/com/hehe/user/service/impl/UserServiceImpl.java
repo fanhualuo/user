@@ -159,6 +159,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Response<User> findById(Long id) {
         try {
+            if (id == null) {
+                return Response.fail("user.id.not.null");
+            }
             return Response.ok(userDao.findById(id));
         } catch (Exception e) {
             log.error("failed to find user by id:{}, cause:{}", id, Throwables.getStackTraceAsString(e));
@@ -208,6 +211,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Response<Boolean> update(User user) {
         try {
+            if (user.getId() == null) {
+                return Response.fail("user.id.not.null");
+            }
             //密码
             if (StringUtils.hasText(user.getPassword())) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -220,24 +226,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Response<Boolean> updatePhone(User user) {
+        try {
+            if (user.getId() == null) {
+                return Response.fail("user.id.not.null");
+            }
+            return Response.ok(userDao.updatePhone(user));
+        } catch (Exception e) {
+            log.error("failed to update user, cause:{}", Throwables.getStackTraceAsString(e));
+            return Response.fail("user.update.fail");
+        }
+    }
+
+    @Override
+    public Response<Boolean> updateEmail(User user) {
+        try {
+            if (user.getId() == null) {
+                return Response.fail("user.id.not.null");
+            }
+            return Response.ok(userDao.updateEmail(user));
+        } catch (Exception e) {
+            log.error("failed to update user, cause:{}", Throwables.getStackTraceAsString(e));
+            return Response.fail("user.update.fail");
+        }
+    }
+
+    @Override
     public Response<Boolean> delete(Long id) {
         try {
+            if (id == null) {
+                return Response.fail("user.id.not.null");
+            }
             return Response.ok(userDao.delete(id));
         } catch (Exception e) {
             log.error("failed to delete user by id:{}, cause:{}", id, Throwables.getStackTraceAsString(e));
             return Response.fail("user.delete.fail");
         }
     }
-
-    private static User user = new User();
-
-    static {
-        user.setId(1L);
-        user.setUsername("hehe");
-        user.setEmail("qinghe101@qq.com");
-        user.setPhone("15854026443");
-        user.setPassword("8fc4@cf1636f1278457e3dfae");
-
-    }
-
 }

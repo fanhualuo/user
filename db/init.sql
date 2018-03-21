@@ -16,6 +16,19 @@ CREATE TABLE `us_users` (
   key `idx_phone` (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
 
+CREATE TABLE `us_users_detail` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL COMMENT '用户id',
+  `info_detailed` text DEFAULT NULL COMMENT '用户详细信息、json字符串',
+  `created_at` datetime DEFAULT NULL ,
+  `updated_at` datetime DEFAULT NULL ,
+  PRIMARY KEY (`id`),
+  key `idx_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息明细表';
+
+
+
+
 CREATE TABLE `us_clients` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `client_id` varchar(128) NOT NULL,

@@ -65,12 +65,14 @@ public class SmsVerificationCodeServiceImpl extends AbstractVerificationCodeServ
                 //超过最大限制次数
                 return Response.fail("send.sms.code.exceed.limit");
             }
-            VerificationCode verificationCode2 = new VerificationCode(sendTo, code, type.getValue(), count);
+            //失效时间戳
+            Long invalidTime = System.currentTimeMillis() + getCodeFailureTime()*1000;
+            VerificationCode verificationCode2 = new VerificationCode(sendTo, code, type.getValue(), count, invalidTime);
             //验证码存入redis(如果以前存在，则使用这条新的覆盖)
             this.putVerificationCode(verificationCode2);
 
             //发送验证码
-            sendSms(sendTo,type,code);
+            sendSms(sendTo, type, code);
 
             return Response.ok("success");
         } catch (Exception e) {
@@ -84,8 +86,8 @@ public class SmsVerificationCodeServiceImpl extends AbstractVerificationCodeServ
      * 异步发送邮件
      */
     private void sendSms(String sendTo, VerificationCode.Type type, String code) {
-        String content ="您好！感谢您使用用户中心服务，您正在进行短信验证码验证，本次请求的"+type.getDisplay()+"验证码为："+code+"，请于"+SMS_CODE_LIMIT_FAILURE_TIME+"秒内填写。";
-        Sms sms=new Sms(sendTo,content);
+        String content = "您好！感谢您使用用户中心服务，您正在进行短信验证码验证，本次请求的" + type.getDisplay() + "验证码为：" + code + "，请于" + SMS_CODE_LIMIT_FAILURE_TIME + "秒内填写。";
+        Sms sms = new Sms(sendTo, content);
         //发送验证码，使用接口
         coreEventDispatcher.publish(sms);
     }
